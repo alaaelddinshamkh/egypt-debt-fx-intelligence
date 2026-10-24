@@ -13,36 +13,64 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # STEP 1 - Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # STEP 2 - Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      # STEP 3 - Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install openpyxl
+          python -m pip install openpyxl requests
 
+      # STEP 4 - Check required files
       - name: Check required files
         run: |
           test -f index.html
           test -f data/fx_history.json
           test -f scripts/update_fx.py
+          test -f scripts/test_cbe_connection.py
           test -f 'historical data(2).xlsx'
+
           echo "All required files found."
 
+      # STEP 5 - Test Central Bank of Egypt connection
+      - name: Test CBE website connection
+        run: |
+          python scripts/test_cbe_connection.py
+
+      # STEP 6 - Test FX updater safely
       - name: Test FX data updater
         run: |
           python scripts/update_fx.py \
             --excel 'historical data(2).xlsx'
 
+      # STEP 7 - Validate JSON
       - name: Validate JSON
         run: |
           python -m json.tool data/fx_history.json > /dev/null
+          echo "JSON validation successful."
 
+      # STEP 8 - Verify historical data unchanged
       - name: Verify historical data unchanged
         run: |
           git diff --exit-code -- data/fx_history.json
+          echo "Historical data unchanged."
+
+      # STEP 9 - Finish
+      - name: Test completed
+        run: |
+          echo "================================="
+          echo "EGYPT DEBT FX INTELLIGENCE"
+          echo "================================="
+          echo "CBE connection test completed."
+          echo "FX updater preview completed."
+          echo "Historical data preserved."
+          echo "Workflow completed successfully."
