@@ -1,0 +1,59 @@
+name: Egypt Debt FX - Data Update
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '17 */6 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-site:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check dashboard files
+        run: |
+          echo "Checking Egypt Debt FX Dashboard..."
+
+          if [ ! -f index.html ]; then
+            echo "ERROR: index.html not found"
+            exit 1
+          fi
+
+          echo "Dashboard file found."
+
+      - name: Check official data source availability
+        run: |
+          python3 - <<'PY'
+          import urllib.request
+          import datetime
+
+          url = "https://www.cbe.org.eg/"
+
+          print("Check time (UTC):",
+                datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat())
+
+          try:
+              request = urllib.request.Request(
+                  url,
+                  headers={"User-Agent": "Mozilla/5.0"}
+              )
+
+              with urllib.request.urlopen(
+                  request,
+                  timeout=20
+              ) as response:
+                  print("CBE HTTP status:", response.status)
+
+          except Exception as error:
+              print("CBE availability check failed:", error)
+              print("No economic data was collected.")
+          PY
