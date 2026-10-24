@@ -37,8 +37,7 @@ jobs:
       - name: Test FX data updater
         run: |
           python scripts/update_fx.py \
-            --excel 'historical data(2).xlsx' \
-            --dry-run
+            --excel 'historical data(2).xlsx'
 
       - name: Validate JSON
         run: |
