@@ -1,4 +1,4 @@
-name: Test Debt Data Source
+name: Test FoudaLens Data Source
 
 on:
   workflow_dispatch:
@@ -19,5 +19,5 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Test debt news source
-        run: python scripts/test_debt_source.py
+      - name: Test FoudaLens source
+        run: python scripts/test_foudalens_source.py
