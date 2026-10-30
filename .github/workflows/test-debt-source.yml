@@ -20,4 +20,4 @@ jobs:
           python-version: '3.11'
 
       - name: Test FoudaLens source
-        run: python scripts/test_foudalens_source.py
+       run: python scripts/test_foudalens_tables.py
