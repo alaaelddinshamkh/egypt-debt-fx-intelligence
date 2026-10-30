@@ -1,0 +1,14 @@
+{
+  "pair": "USD/EGP",
+  "buy": 55.99,
+  "sell": 56.12,
+  "as_of": "2026-10-30",
+  "observed_at": "2026-10-30T16:00:00Z",
+  "feed_generated_at": "2026-10-30T16:00:19.845000Z",
+  "fetched_at": "2026-10-30T16:00:20.468609Z",
+  "source": "Daleelak",
+  "source_url": "https://getdaleelak.com/api/v1/feed.json",
+  "price_type": "third_party_indicative_benchmark",
+  "is_official_cbe_rate": false,
+  "note": "Indicative third-party benchmark; not verified as an official CBE quote."
+}
