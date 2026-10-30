@@ -1,12 +1,17 @@
-name: Egypt Debt FX - Data Update
+name: Egypt Debt FX - Live USD Update
 
 on:
   workflow_dispatch:
+
   schedule:
     - cron: '17 */6 * * *'
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: egypt-fx-update
+  cancel-in-progress: false
 
 jobs:
   update-data:
@@ -17,6 +22,8 @@ jobs:
       # STEP 1 - Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       # STEP 2 - Setup Python
       - name: Setup Python
@@ -24,53 +31,55 @@ jobs:
         with:
           python-version: '3.11'
 
-      # STEP 3 - Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install openpyxl requests
-
-      # STEP 4 - Check required files
+      # STEP 3 - Check required files
       - name: Check required files
         run: |
           test -f index.html
           test -f data/fx_history.json
-          test -f scripts/update_fx.py
-          test -f scripts/test_cbe_connection.py
-          test -f 'historical data(2).xlsx'
+          test -f scripts/update_live_fx.py
 
           echo "All required files found."
 
-      # STEP 5 - Test Central Bank of Egypt connection
-      - name: Test CBE website connection
+      # STEP 4 - Download latest USD/EGP rate
+      - name: Fetch live USD EGP rate
         run: |
-          python scripts/test_cbe_connection.py
+          python scripts/update_live_fx.py --apply
 
-      # STEP 6 - Test FX updater safely
-      - name: Test FX data updater
+      # STEP 5 - Validate live JSON
+      - name: Validate live FX JSON
         run: |
-          python scripts/update_fx.py \
-            --excel 'historical data(2).xlsx'
+          python -m json.tool data/fx_live.json > /dev/null
 
-      # STEP 7 - Validate JSON
-      - name: Validate JSON
-        run: |
-          python -m json.tool data/fx_history.json > /dev/null
-          echo "JSON validation successful."
+          echo "Live FX JSON validated."
 
-      # STEP 8 - Verify historical data unchanged
+      # STEP 6 - Verify historical CBE data unchanged
       - name: Verify historical data unchanged
         run: |
           git diff --exit-code -- data/fx_history.json
-          echo "Historical data unchanged."
 
-      # STEP 9 - Finish
-      - name: Test completed
+          echo "Historical CBE data preserved."
+
+      # STEP 7 - Commit updated live exchange rate
+      - name: Commit and push live FX data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/fx_live.json
+
+          if git diff --cached --quiet; then
+            echo "No new exchange rate to commit."
+          else
+            git commit -m "Auto-update USD EGP exchange rate"
+            git push
+          fi
+
+      # STEP 8 - Finish
+      - name: Update completed
         run: |
           echo "================================="
           echo "EGYPT DEBT FX INTELLIGENCE"
           echo "================================="
-          echo "CBE connection test completed."
-          echo "FX updater preview completed."
-          echo "Historical data preserved."
+          echo "Live USD/EGP update completed."
+          echo "Historical CBE data preserved."
           echo "Workflow completed successfully."
