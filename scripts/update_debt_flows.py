@@ -73,7 +73,9 @@ def main():
     for (instrument,investor),net in sorted(flows.items()):
         records.append({'date':day,'type':'secondary','investor':investor,'instrument':instrument,'net_egp_million':net,'source':URL,'measure':'net_buy_minus_sell','data_origin':'third_party_egx_attribution'})
     records.sort(key=lambda x:(x['date'],x['instrument'],x['investor']))
-    result={**old,'records':records,'latest_session':day,'note':'Net securities trading in EGP millions, not actual FX outflow; third-party reported EGX data. Gross buy/sell by instrument not provided.'}
+    # Keep the latest known session even if the provider temporarily serves an older date.
+    latest_session=max(r['date'] for r in records)
+    result={**old,'records':records,'latest_session':latest_session,'note':'Net securities trading in EGP millions, not actual FX outflow; third-party reported EGX data. Gross buy/sell by instrument not provided.'}
     print('Session:',day,'values (EGP million):',flows,'total records:',len(records))
     if args.apply:
         OUT.parent.mkdir(parents=True,exist_ok=True)
