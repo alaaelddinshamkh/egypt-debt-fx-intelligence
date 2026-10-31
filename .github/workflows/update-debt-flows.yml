@@ -1,0 +1,31 @@
+name: Update Debt Flows
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '37 */6 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: egypt-debt-flows
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Extract and validate published net flows
+        run: python scripts/update_debt_flows.py --apply
+      - name: Validate output
+        run: python -m json.tool data/debt_flows.json > /dev/null
+      - name: Commit data only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/debt_flows.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update published debt net flows'
+            git push
+          fi
