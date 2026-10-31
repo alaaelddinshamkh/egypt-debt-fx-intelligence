@@ -1,13 +1,18 @@
-name: Test FoudaLens Data Source
+
+name: Test FoudaLens Historical API
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - "scripts/test_historical_api.py"
+      - ".github/workflows/test-debt-source.yml"
 
 permissions:
   contents: read
 
 jobs:
-  test-source:
+  test-historical-api:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +22,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Test FoudaLens source
-       run: python scripts/test_foudalens_tables.py
+      - name: Test historical API
+        run: python scripts/test_historical_api.py
