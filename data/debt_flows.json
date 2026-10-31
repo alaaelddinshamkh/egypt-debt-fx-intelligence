@@ -3,6 +3,48 @@
   "source": "FoudaLens",
   "source_url": "https://foudalens.com/en/trading-summary",
   "unit": "EGP_million",
-  "records": [],
-  "note": "Awaiting first verified automated extraction. No fabricated figures."
+  "records": [
+    {
+      "date": "2026-10-29",
+      "type": "secondary",
+      "investor": "arab",
+      "instrument": "bond",
+      "net_egp_million": 0.0,
+      "source": "https://foudalens.com/en/trading-summary",
+      "measure": "net_buy_minus_sell",
+      "data_origin": "third_party_egx_attribution"
+    },
+    {
+      "date": "2026-10-29",
+      "type": "secondary",
+      "investor": "foreign",
+      "instrument": "bond",
+      "net_egp_million": -1160.0,
+      "source": "https://foudalens.com/en/trading-summary",
+      "measure": "net_buy_minus_sell",
+      "data_origin": "third_party_egx_attribution"
+    },
+    {
+      "date": "2026-10-29",
+      "type": "secondary",
+      "investor": "arab",
+      "instrument": "tbill",
+      "net_egp_million": 7580.0,
+      "source": "https://foudalens.com/en/trading-summary",
+      "measure": "net_buy_minus_sell",
+      "data_origin": "third_party_egx_attribution"
+    },
+    {
+      "date": "2026-10-29",
+      "type": "secondary",
+      "investor": "foreign",
+      "instrument": "tbill",
+      "net_egp_million": 14220.0,
+      "source": "https://foudalens.com/en/trading-summary",
+      "measure": "net_buy_minus_sell",
+      "data_origin": "third_party_egx_attribution"
+    }
+  ],
+  "note": "Net securities trading in EGP millions, not actual FX outflow; third-party reported EGX data. Gross buy/sell by instrument not provided.",
+  "latest_session": "2026-10-29"
 }
