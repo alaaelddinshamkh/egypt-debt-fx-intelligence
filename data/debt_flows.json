@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "source": "FoudaLens",
+  "source_url": "https://foudalens.com/en/trading-summary",
+  "unit": "EGP_million",
+  "records": [],
+  "note": "Awaiting first verified automated extraction. No fabricated figures."
+}
