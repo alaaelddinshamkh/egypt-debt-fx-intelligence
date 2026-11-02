@@ -119,7 +119,7 @@
       "type": "secondary",
       "investor": "foreign",
       "instrument": "tbill",
-      "net_egp_million": -7610.0,
+      "net_egp_million": -2290.0,
       "source": "https://foudalens.com/en/trading-summary",
       "measure": "net_buy_minus_sell",
       "data_origin": "third_party_egx_attribution"
