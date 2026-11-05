@@ -219,7 +219,7 @@
       "type": "secondary",
       "investor": "foreign",
       "instrument": "bond",
-      "net_egp_million": 5.1,
+      "net_egp_million": 11.7,
       "source": "https://foudalens.com/en/trading-summary",
       "measure": "net_buy_minus_sell",
       "data_origin": "third_party_egx_attribution"
@@ -229,7 +229,7 @@
       "type": "secondary",
       "investor": "arab",
       "instrument": "tbill",
-      "net_egp_million": 1010.0,
+      "net_egp_million": 1200.0,
       "source": "https://foudalens.com/en/trading-summary",
       "measure": "net_buy_minus_sell",
       "data_origin": "third_party_egx_attribution"
