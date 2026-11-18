@@ -589,7 +589,7 @@
       "type": "secondary",
       "investor": "arab",
       "instrument": "tbill",
-      "net_egp_million": 21.5,
+      "net_egp_million": 12.6,
       "source": "https://foudalens.com/en/trading-summary",
       "measure": "net_buy_minus_sell",
       "data_origin": "third_party_egx_attribution"
